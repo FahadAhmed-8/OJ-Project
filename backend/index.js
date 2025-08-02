@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.post("/register", async (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
   try {
     const { username, password, email } = req.body;
 
@@ -55,10 +55,11 @@ app.post("/register", async (req, res) => {
       .json({ message: "You have successfully registered", user: user });
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred during registration."); 
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import questionRoutes from './routes/question.routes.js';
+import submissionRoutes from './routes/submission.routes.js';
 
 dotenv.config();
 connectDB();
@@ -15,7 +16,7 @@ app.use(express.json()); // Middleware to parse JSON
 // use the rules defined in the authRoutes file."
 app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
-
+app.use('/api/submit', submissionRoutes);
 
 
 const PORT = process.env.PORT || 5000;

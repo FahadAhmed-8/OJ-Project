@@ -18,7 +18,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/problems" element={<ProblemsPage />} />
       <Route path="/problems/:id" element={<ProblemDetailPage />} />
-      <Route path="/" element={<ProblemsPage />} />
+      <Route path="/" element={<LoginPage />} />
 
       {/* Protected Routes for regular logged-in users */}
       <Route element={<ProtectedRoute />}>

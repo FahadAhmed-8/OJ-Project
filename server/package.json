@@ -18,7 +18,9 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^5.9.2",
-    "mongoose": "^8.17.0"
+    "mongoose": "^8.17.0",
+    "react-simple-code-editor": "^0.14.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

@@ -9,26 +9,28 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
 import ProblemsPage from './pages/ProblemsPage';
 import ProblemDetailPage from './pages/ProblemDetailPage';
+import Layout from './components/Layout';
 
 function App() {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/problems" element={<ProblemsPage />} />
-      <Route path="/problems/:id" element={<ProblemDetailPage />} />
-      <Route path="/" element={<LoginPage />} />
+      <Route element={<Layout />}>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/problems" element={<ProblemsPage />} />
+        <Route path="/problems/:id" element={<ProblemDetailPage />} />
+        <Route path="/" element={<ProblemsPage />} />
 
-      {/* Protected Routes for regular logged-in users */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/profile" element={<ProfilePage />} />
-      </Route>
+        {/* Protected Routes for regular logged-in users */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
 
-      {/* 2. Protected Routes for ADMIN users only */}
-      <Route element={<AdminRoute />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        {/* You can add more admin-only pages here later */}
+        {/* Protected Routes for ADMIN users only */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -1,8 +1,8 @@
 // server/controllers/submission.controller.js
 import Question from '../models/question.model.js';
 import Submission from '../models/submission.model.js';
-import { generateFile } from '../compiler/generateFile.js';
-import { executeCode } from '../compiler/executeCode.js';
+import { generateFile } from '../../compiler/generateFile.js';
+import { executeCode } from '../../compiler/executeCode.js';
 
 export const handleSubmission = async (req, res) => {
     const { language = 'cpp', code, questionId } = req.body;
@@ -22,10 +22,8 @@ export const handleSubmission = async (req, res) => {
             return res.status(404).json({ message: 'Question not found' });
         }
 
-        // Create the temporary file for the user's code
         filePath = generateFile(language, code);
 
-        // Assume "Accepted" until a test case fails
         finalVerdict = 'Accepted';
 
         for (const testCase of question.testCases) {
@@ -35,18 +33,19 @@ export const handleSubmission = async (req, res) => {
 
                 if (actualOutput.trim() !== expectedOutput.trim()) {
                     finalVerdict = 'Wrong Answer';
-                    break; // Stop on the first wrong answer
+                    break; 
                 }
             } catch (executionError) {
-                // This catch block handles errors from executeCode (e.g., compilation errors)
-                finalVerdict = 'Compilation Error';
-                // Use the stderr from the execution error if available, otherwise a generic message
+                if (executionError === "Time Limit Exceeded") {
+                    finalVerdict = "Time Limit Exceeded";
+                } else {
+                    finalVerdict = 'Compilation Error';
+                }
                 console.error("Execution/Compilation Error:", executionError.stderr || executionError);
-                break; // Stop on the first error
+                break;
             }
         }
         
-        // Save the final result to the database
         submission = await Submission.create({
             userId,
             questionId,
@@ -58,9 +57,7 @@ export const handleSubmission = async (req, res) => {
         res.status(201).json({ verdict: finalVerdict, submission });
 
     } catch (error) {
-        // This outer catch block handles other errors (e.g., database issues)
         console.error("Server Error:", error);
-        // If a submission document was created but an error happened later, update it
         if (submission) {
             submission.verdict = 'Error';
             await submission.save();

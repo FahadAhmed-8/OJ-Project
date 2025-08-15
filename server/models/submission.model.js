@@ -6,9 +6,7 @@ const submissionSchema = new mongoose.Schema({
     questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
     code: { type: String, required: true },
     language: { type: String, required: true },
-    // --- THIS LINE IS CHANGED ---
-    // Add "Compilation Error" to the list of allowed verdicts
-    verdict: { type: String, enum: ['Pending', 'Accepted', 'Wrong Answer', 'Error', 'Compilation Error'], default: 'Pending' },
+    verdict: { type: String, enum: ['Pending', 'Accepted', 'Wrong Answer', 'Error', 'Compilation Error', 'Time Limit Exceeded'], default: 'Pending' },
     submittedAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
